@@ -10,5 +10,10 @@ export interface DeviceData {
     type: string
     messure: number | null
     pos: Array<number>
-    historic: Array<number | string>
+    historic: Historic
+}
+
+export interface Historic {
+    messures: Array<number>
+    hours: Array<Date>
 }
