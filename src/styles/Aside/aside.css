@@ -1,0 +1,18 @@
+.aside {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 10px;
+}
+
+.aside::-webkit-scrollbar {
+    display: none; /* Oculta la barra de scroll */
+}
+  

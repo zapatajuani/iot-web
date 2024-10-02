@@ -1,0 +1,31 @@
+:root {
+  font-family: Roboto, system-ui, Avenir, Helvetica;
+
+  --color-50: #f0f6fe;
+  --color-100: #dde9fc;
+  --color-200: #c3dafa;
+  --color-300: #99c3f7;
+  --color-400: #69a3f1;
+  --color-500: #4681eb;
+  --color-600: #3063e0;
+  --color-700: #284fcd;
+  --color-800: #2641a7;
+  --color-900: #243b84;
+  --color-950: #1f2c5e;
+}
+
+* {
+  transition: background-color 0.5s ease, color 0.1s linear;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+  width: 100vw;
+  height: 100vh;
+  color: var(--color-50);
+  background-color: var(--color-950);
+}
+
