@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainPage from './pages/MainPage.tsx';
@@ -12,8 +11,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <MyContext>
-    <StrictMode>
-      <RouterProvider router={router}/>
-    </StrictMode>
+    <RouterProvider router={router}/>
   </MyContext>,
 )
