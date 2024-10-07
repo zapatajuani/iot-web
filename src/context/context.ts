@@ -1,10 +1,11 @@
 import { createContext, useContext } from "react"
+import { DeviceData } from "../types/apiData"
 
 /// INTERFACES ---------------------------
 
-interface MapContext {
-    url: string | undefined
-    center: string | number[] |undefined
+interface MapContext { 
+    devices: DeviceData[]
+    center: string | number[] | undefined
 }
 
 interface ThemeContext {
@@ -20,7 +21,7 @@ export const themeContext = createContext<ThemeContext>({
 })
 
 export const mapContext = createContext<MapContext>({
-    url: undefined,
+    devices: [],
     center: undefined
 })
 

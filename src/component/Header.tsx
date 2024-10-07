@@ -57,7 +57,7 @@ function Header() {
             <ul className="header-ref-list">
                 <li><Link to={"/mapa"}>MAPA</Link></li>
                 <li><Link to={"/mapa"}>DISPOSITIVOS</Link></li>
-                <li><Link to={"/mapa"}>GRÁFICOS</Link></li>
+                <li><Link to={"/graficos"}>GRÁFICOS</Link></li>
                 <li><Link to={"/mapa"}>CUENTA</Link></li>
             </ul>
 

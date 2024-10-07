@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react'
 import '../styles/Aside/devIcon.css'
-import { type DeviceData } from '../types/apiData'
 
 /**
  * Choose the correct strings fro the icon
@@ -28,27 +28,47 @@ function iconAsignation(
     return [icon, quantity]
 }
 
-function DevIcon(data: DeviceData) {
+function iconInit(type: string, messure: boolean | number): string[] {
 
     let icon: string = ""
     let quantity: string = ""
 
     switch (true) {
-        case (data.type == "temperature" && typeof data.messure === 'number'):
-            [icon, quantity] = iconAsignation(18, 30, data.type, data.messure)
+        case (type == "temperature" && typeof messure === 'number'):
+            [icon, quantity] = iconAsignation(18, 30, type, messure)
             break
-        case (data.type == "humidity" && typeof data.messure === 'number'):
-            [icon, quantity] = iconAsignation(20, 90, data.type, data.messure)
+        case (type == "humidity" && typeof messure === 'number'):
+            [icon, quantity] = iconAsignation(20, 90, type, messure)
             break
-        case (data.type == "switch" && typeof data.messure === 'boolean'):
+        case (type == "switch" && typeof messure === 'boolean'):
             icon = 'switch'
             quantity = ''
             break
-        case data.type == "gps":
+        case type == "gps":
             icon = "gps"
             quantity = ""
             break
     }
+
+    return [icon, quantity]
+}
+
+interface Props {
+    type: string
+    messure: boolean | number
+}
+
+function DevIcon({ type, messure }: Props) {
+    const [icon, setIcon] = useState('')
+    const [quantity, setQuantity] = useState('')
+
+    useEffect(()=>{
+        const [newIcon, newQuantity] = iconInit(type, messure)
+        
+        setIcon(newIcon)
+        setQuantity(newQuantity)
+
+    }, [messure, type])
 
     return(
         <img

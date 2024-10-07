@@ -15,7 +15,7 @@ export function MyContext({ children }: ContextProps) {
             changeMode: setMode
             }}>
             <mapContext.Provider value={{
-                url: undefined,
+                devices: [],
                 center: undefined
                 }}>
                 { children }
