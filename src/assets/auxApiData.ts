@@ -1,14 +1,6 @@
 import { Historic, type DeviceData } from "../types/apiData";
 import { v4 as uuid } from 'uuid';
 
-/* name: string
-state: boolean
-id: string
-type: string
-messure: number | null
-pos: Array<number>
-historic: Array<number | string> */
-
 function randomNumber(max:number, min:number):number {
     return parseFloat(((Math.random() * (max - min + 1)) + min).toFixed(2))
 }
@@ -31,11 +23,48 @@ function randomDevice():string {
     return rta
 }
 
-function getHistoric(messure:number):Historic {
-    for (let i = 0; i != 24; i++) {
+function getHistoric(messure:number | boolean):Historic {
+    const rta:Historic = {messures:[], hours: []}
+    const currentDate = new Date()
 
-        const randomNumber = Math.random() * (1.25 - 0.75) + 0.75;
+    if (typeof messure === 'boolean') {
+
+        for (let i = 0; i < 24; i++) {
+
+            const pastDate = new Date(currentDate)
+            pastDate.setHours(currentDate.getHours() - i)
+            rta.hours.push(pastDate)
+
+            if (Math.random() <= 0.50) {
+                rta.messures.push(true)
+            } else {
+                rta.messures.push(false)
+            }
+        }
+
+    } else if (typeof messure === 'number') {
+        
+        rta.messures.push(messure)
+        rta.hours.push(currentDate)
+    
+        for (let i = 0; i < 24; i++) {
+    
+            const pastDate = new Date(currentDate)
+            pastDate.setHours(currentDate.getHours() - i)
+            rta.hours.push(pastDate)
+    
+            const firstMessure = typeof rta.messures[0] === 'number' ? rta.messures[0] : 0
+            const randomPercetange = Math.random() * (1.25 - 0.75) + 0.75
+            const randomMessure = firstMessure * randomPercetange
+            rta.messures.unshift(parseFloat(randomMessure.toFixed(2)))
+        }
+    
+        rta.hours.splice(0, 1)
+        rta.messures.pop()
     }
+
+    rta.messures.reverse()
+    return rta
 }
 
 export async function auxApiData(): Promise<Array<DeviceData>> {
@@ -52,12 +81,12 @@ export async function auxApiData(): Promise<Array<DeviceData>> {
         [-34.9217547, -57.9671948],
     ]
     
-    for (let i=1; i != 8; i++) {
+    for (let i=1; i < 9; i++) {
 
         const randomIndex = Math.floor(Math.random() * positions.length);
         const randomElement = positions.splice(randomIndex, 1)[0]
 
-        const aux = {
+        const aux: DeviceData = {
             name: `Sensor-00${i}`,
             state: true,
             id: uuid(),
@@ -75,11 +104,27 @@ export async function auxApiData(): Promise<Array<DeviceData>> {
         } else if (aux.type == 'humidity') {
             aux.messure = randomNumber(0, 100)
         } else {
-            aux.messure = Math.floor(Math.random() * 2)
+            aux.messure = Math.random() < 0.5 ? true : false
         }
+
+        aux.historic = getHistoric(aux.messure)
 
         devices.push(aux)
     }
     
     return devices
+}
+
+export async function upDateData(type: string): Promise<number | boolean> {
+    let rta: number | boolean = 0
+
+    if (type == 'temperature') {
+        rta = randomNumber(15, 35)
+    } else if (type == 'humidity') {
+        rta = randomNumber(0, 100)
+    } else {
+        rta = Math.random() < 0.5 ? true : false
+    }
+
+    return rta
 }

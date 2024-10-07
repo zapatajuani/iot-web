@@ -34,11 +34,15 @@ function DevIcon(data: DeviceData) {
     let quantity: string = ""
 
     switch (true) {
-        case (data.messure && data.type == "temperature"):
+        case (data.type == "temperature" && typeof data.messure === 'number'):
             [icon, quantity] = iconAsignation(18, 30, data.type, data.messure)
             break
-        case (data.messure && data.type == "humidity"):
+        case (data.type == "humidity" && typeof data.messure === 'number'):
             [icon, quantity] = iconAsignation(20, 90, data.type, data.messure)
+            break
+        case (data.type == "switch" && typeof data.messure === 'boolean'):
+            icon = 'switch'
+            quantity = ''
             break
         case data.type == "gps":
             icon = "gps"
