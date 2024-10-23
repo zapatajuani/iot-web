@@ -1,17 +1,14 @@
 import '../styles/Aside/aside.css'
 import Device from './Device.tsx'
-import { type DeviceData } from '../types/apiData.ts'
+import { MapContext, useMapContext } from '../context/context.ts'
 
-interface Props {
-    apiData: DeviceData[]
-}
-
-function Aside({apiData}: Props) {
+function Aside() {
+    const MapData: MapContext = useMapContext()
 
     return(
         <>
             {
-                apiData.map((device) => {
+                MapData.devices.map((device) => {
                     return(
                         <Device {...device} key={device.id} />
                     )

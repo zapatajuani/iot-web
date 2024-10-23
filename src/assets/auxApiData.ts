@@ -115,7 +115,7 @@ export async function auxApiData(): Promise<Array<DeviceData>> {
     return devices
 }
 
-export async function upDateData(type: string): Promise<number | boolean> {
+export function upDateData(type: string): number | boolean {
     let rta: number | boolean = 0
 
     if (type == 'temperature') {

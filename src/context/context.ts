@@ -3,9 +3,13 @@ import { DeviceData } from "../types/apiData"
 
 /// INTERFACES ---------------------------
 
-interface MapContext { 
+export interface MapContext { 
     devices: DeviceData[]
-    center: string | number[] | undefined
+    center: number[] | undefined
+    updateFlag: boolean | undefined
+    setFlag: undefined | React.Dispatch<React.SetStateAction<boolean>>
+    setDevices: undefined | React.Dispatch<React.SetStateAction<DeviceData[]>>
+    setCenter: undefined | React.Dispatch<React.SetStateAction<number[]>>
 }
 
 interface ThemeContext {
@@ -22,7 +26,11 @@ export const themeContext = createContext<ThemeContext>({
 
 export const mapContext = createContext<MapContext>({
     devices: [],
-    center: undefined
+    center: undefined,
+    updateFlag: undefined,
+    setFlag: undefined,
+    setDevices: undefined,
+    setCenter: undefined
 })
 
 export function useMapContext() {

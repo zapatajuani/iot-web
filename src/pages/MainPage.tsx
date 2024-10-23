@@ -1,40 +1,45 @@
 import '../styles/MainPage/gridStyle.css'
-import Aside from '../component/Aside';
-import Header from '../component/Header';
-import MyMap from '../component/MyMap';
-import { DeviceData } from '../types/apiData';
-import { useEffect, useState } from 'react';
-import { auxApiData } from '../assets/auxApiData';
-
-const data: DeviceData[] = [{
-    name: "Temp 1",
-    state: true,
-    id: "id",
-    type: "temperature",
-    pos: [0, 0],
-    messure: 0,
-    historic: {
-        messures: [0],
-        hours: [new Date()]
-    }
-}]
+import Aside from '../component/Aside'
+import Header from '../component/Header'
+import MyMap from '../component/MyMap'
+import { useEffect } from 'react'
+import { auxApiData } from '../assets/auxApiData'
+import { MapContext, useMapContext } from '../context/context'
+import { upDateData } from '../assets/auxApiData'
 
 function MainPage() {
+    const MapData: MapContext = useMapContext()
 
-    const [apiData, setAPIData] = useState(data)
-
-    useEffect(()=>{
+    useEffect(() => {
         async function callAPI() {
             try {
-                const data = await auxApiData();
-                setAPIData(data);
-
+                const data = await auxApiData()
+                
+                if (MapData.setDevices) {
+                    MapData.setDevices(data)
+                }
             } catch (err) {
-                console.log(err);
+                console.log(err)
             }
         }
 
+        const intervalId = setInterval(async () => {
+            
+            MapData.devices.map(async (e)=> {
+                e.messure = upDateData(e.type)
+            })
+
+            if (MapData.setFlag && MapData.updateFlag) {
+                MapData.setFlag(false)
+            } else if (MapData.setFlag) {
+                MapData.setFlag(true)
+            }
+
+        }, 3000)
+
         callAPI()
+
+        return () => clearInterval(intervalId)
     }, [])
 
     return (
@@ -43,12 +48,12 @@ function MainPage() {
             <Header />
         </div>
         <div className="aside">
-            <Aside apiData={apiData}/>
+            <Aside />
         </div>
 
-        <MyMap apiData={apiData}/> 
+        <MyMap /> 
         </div>
-    );
+    )
 }
 
 export default MainPage

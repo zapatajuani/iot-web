@@ -3,6 +3,7 @@ import '../styles/Aside/device.css'
 import { type DeviceData } from '../types/apiData'
 import DevIcon from './DevIcon'
 import { upDateData } from '../assets/auxApiData'
+import { MapContext, useMapContext } from '../context/context'
 
 const messureInit = (messure: number | boolean | string, type: string): string => {
     let rta: string = ''
@@ -23,6 +24,16 @@ const messureInit = (messure: number | boolean | string, type: string): string =
 }
 
 function Device(dataArray: DeviceData) {
+
+    const MapData: MapContext = useMapContext()
+
+    /* setInterval(()=>{
+
+        
+
+        console.log("MapData.updateFlag")
+    }, 3000) */
+
     const [messure, setMessure] = useState('')
     const [numberMessure, setNumberMessure] = useState(dataArray.messure)
     
@@ -31,7 +42,7 @@ function Device(dataArray: DeviceData) {
 
         const intervalId = setInterval(async () => {
             try {
-                const data = await upDateData(dataArray.type)
+                const data = upDateData(dataArray.type)
                 setMessure(messureInit(data, dataArray.type))
                 setNumberMessure(data)
             } catch (err) {

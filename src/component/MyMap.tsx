@@ -2,9 +2,8 @@ import '../styles/MyMap/mymapStyle.css'
 import 'leaflet/dist/leaflet.css'
 import { TileLayer } from 'react-leaflet'
 import { MapContainer } from 'react-leaflet'
-import { /* useMapContext, */ useThemeContext } from '../context/context'
+import { MapContext, useMapContext, useThemeContext } from '../context/context'
 import { useEffect, useState } from 'react'
-import { DeviceData } from '../types/apiData'
 import MyMarker from './MyMarker'
 
 /* interface Mapa {
@@ -17,14 +16,11 @@ interface ThemeContext {
     changeMode: undefined | React.Dispatch<React.SetStateAction<string>>
 }
 
-interface Props {
-    apiData: DeviceData[]
-}
-
-function MyMap ({apiData}: Props) {
+function MyMap () {
     const darkURL: string = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     const lightURL: string = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    
+
+    const MapData: MapContext = useMapContext()
     const mode: ThemeContext = useThemeContext()
     const [url, setUrl] = useState(darkURL)
 
@@ -45,9 +41,9 @@ function MyMap ({apiData}: Props) {
                 url={url}
             />
             {
-                apiData.map((device) => {
+                MapData.devices.map((device) => {
                     return(
-                        <MyMarker device={device}/>
+                        <MyMarker device={device} key={device.id}/>
                     )
                 })
             }
